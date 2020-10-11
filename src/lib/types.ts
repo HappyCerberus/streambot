@@ -2,7 +2,9 @@ export enum MessageTypes {
     System,
     InboundChat,
     OutboundChat,
-    StreamStats,
+    StreamStatsViewers,
+    StreamStatsFollowers,
+    StreamStatsLatestFollower,
 }
 
 /**
@@ -27,13 +29,13 @@ export interface StatsFollowers {
     followers: number
 }
 
-export interface StatsLastFollower {
+export interface StatsLatestFollower {
     kind: "last_follower"
     platform: Platform
-    follower: string
+    latest_follower: string
 }
 
-export type Stats = StatsViewers | StatsFollowers | StatsLastFollower;
+export type Stats = StatsViewers | StatsFollowers | StatsLatestFollower;
 
 export class InboundMessage {
     constructor(public platform: Platform, public user: string, public msg: string) { };
