@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "CommonJS",
+        "outDir": "build",
+        "jsx": "preserve",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+    },
+    "include": [
+        // only build those in src
+        "./src/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

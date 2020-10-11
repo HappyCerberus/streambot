@@ -1,0 +1,20 @@
+{
+    "tags": {
+        "allowUnknownTags": [
+            "optional"
+        ]
+    },
+    "plugins": [
+        "node_modules/better-docs/typescript"
+    ],
+    "opts": {
+        "template": "node_modules/better-docs"
+    },
+    "source": {
+	"include": ["src"],
+        "includePattern": "\\.(vue|jsx|js|ts|tsx)$",
+        "exclude": [
+            "node_modules"
+        ]
+    }
+}
