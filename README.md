@@ -27,6 +27,11 @@
 ### Typescript 
 
 - [Interactive Stream Bot in Typescript | Episode 5 | Proof of concept using Typescript](https://www.youtube.com/watch?v=rD6dTGWvwgQ)
+- [Interactive Stream Bot in Typescript | Episode 6 | Follower / Sub information](https://www.youtube.com/watch?v=6qanh0VQIzw)
+- [Interactive Stream Bot in Typescript | Episode 7 | OBS Overlay with Vue.js](https://www.youtube.com/watch?v=ZQpJoS1LXAs)
+- [Interactive Stream Bot in Typescript | Episode 8 | Vue3 & Websockets](https://www.youtube.com/watch?v=4ym4SC4-NVg)
+- [Interactive Stream Bot in Typescript | Episode 9 | Youtube integration](https://www.youtube.com/watch?v=sAsyLO5XjbE)
+- [Interactive Stream Bot in Typescript | Episode 10 | Text to Speech & Youtube chat](https://www.youtube.com/watch?v=arzceM61GO4)
 
 ## Design Notes
 
@@ -37,44 +42,3 @@ Moreover the architecture aims to be language agnostic, allowing for modules to 
 * Inbound modules announce themselves to the backbone on port `tcp://127.0.0.1:6666`, with their pubsub endpoint as the content of the message.
 * Backbone will then connect to this pubsub endpoint and re-transmit all messages on its own pubsub endpoint on port `tcp://127.0.0.1:6667`.
 * Outbound modules simply connect to the backbone pubsub endpoint and react to messages accordingly.
-
-### Steady state information
-
-Steady state information is information not related to a particular event, e.g.the current number of subscribers on YouTube, number of live viewers, etc...
-
-Modules responsible for steady state information periodically emit this information on their pubsub endpoint. The frequency is set to match the type of data / platform restrictions (whichever is more restrictive).
-
-Consumers of the steady state information are required to handle throttling internally, especially when consuming information from multiple sources.
-
-## Open questions
-
-### Typescript
-
-- Can I have a tagged type and then send it through JSON, while maintaining the type information?
-
-```
-enum Type {
-    TYPE1,
-    TYPE2
-}
-
-export interface StatsType {
-    type : Type
-}
-
-export interface StatsFollowers extends StatsType {
-    kind: "followers"
-    platform: Platform
-    followers: number
-}
-
-let m = JSON.parse(msg.toString());
-switch ((m as StatsType).type) {
-    case ...:
-        m as ....
-}
-```
-
-
-### Twitch
-
