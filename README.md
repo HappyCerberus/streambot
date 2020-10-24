@@ -1,5 +1,7 @@
 # Interactive Stream Bot
 
+![streambot](https://socialify.git.ci/HappyCerberus/streambot/image?description=1&descriptionEditable=Streambot%20for%20Twitch%20%26%20Youtube.&font=KoHo&forks=1&language=1&owner=1&pattern=Signal&stargazers=1&theme=Light)
+
 ## Goal
 
 - multi-stream, multi-platform support
