@@ -5,6 +5,7 @@ export enum MessageTypes {
     StreamStatsViewers,
     StreamStatsFollowers,
     StreamStatsLatestFollower,
+    TextToSpeech,
 }
 
 /**
@@ -47,4 +48,16 @@ export class OutboundMessage {
 
 export class StreamStatsMessage {
     constructor(public platform: Platform, public type: Stats) { }
+}
+
+export enum VoiceMapping {
+    hazel = "Microsoft Hazel Desktop",
+    zira = "Microsoft Zira Desktop",
+}
+
+// Pitch default 1.0
+// Rate default 1.0
+// Volume default 1.0
+export class TextToSpeechMessage {
+    constructor(public text: string, public voice: VoiceMapping, public pitch?: number, public rate?: number, public volume?: number) { }
 }

@@ -23,29 +23,38 @@ async function periodic_export(socket: ws) {
     }
 }
 
-
 export async function run(name: string, hostport: string) {
     const sub = new zmq.Subscriber;
     sub.connect("tcp://127.0.0.1:6667");
     sub.subscribe();
 
-    const sock = new ws.Server({
+    const wss = new ws.Server({
         port: 9000,
     });
-    sock.on("error", (error: Error) => {
+    wss.on("error", (error: Error) => {
         console.log(`Socket error ${error}`);
     });
-    sock.on("connection", (socket: ws, request: ws.MessageEvent) => {
+    wss.on("connection", (socket: ws, request: ws.MessageEvent) => {
         console.log(`Received connection on socket ${request.data}`);
         periodic_export(socket);
     });
-    sock.on("close", () => {
+    wss.on("close", () => {
         console.log(`Socket disconnected.`);
     });
 
     for await (const [topic, msg] of sub) {
         try {
             switch (topic.toString()) {
+                case m.MessageTypes[m.MessageTypes.TextToSpeech]:
+                    wss.clients.forEach((client) => {
+                        if (client.readyState === ws.OPEN) {
+                            console.log("Trying to send message to client.");
+                            client.send(msg.toString());
+                        } else {
+                            console.error("Client not ready to receive data.");
+                        }
+                    });
+                    break;
                 case m.MessageTypes[m.MessageTypes.StreamStatsFollowers]:
                     let followers = JSON.parse(msg.toString()) as m.StatsFollowers;
                     switch (followers.platform) {

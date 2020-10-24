@@ -30,7 +30,7 @@ export async function run(name: string, hostport: string) {
     await pub.send([MessageTypes[MessageTypes.System], "Twitch chat connected"]);
 
     const messageListener = chatClient.onMessage(async (channel: string, user: string, message: string, msg: twitch_chat.PrivateMessage) => {
-        await pub.send([MessageTypes[MessageTypes.InboundChat], `${JSON.stringify(new InboundMessage(Platform.Twitch, user, message))}`]);
+        await pub.send([MessageTypes[MessageTypes.InboundChat], JSON.stringify(new InboundMessage(Platform.Twitch, user, message))]);
     });
 
     const sub = new zmq.Subscriber;
