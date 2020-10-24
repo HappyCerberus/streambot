@@ -48,6 +48,6 @@ export async function run(name: string, hostport: string) {
         pubQueue.send(MessageTypes[MessageTypes.StreamStatsFollowers], followers_msg);
         pubQueue.send(MessageTypes[MessageTypes.StreamStatsViewers], viewers_msg);
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 5000));
     }
 }

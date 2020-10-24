@@ -6,10 +6,13 @@ import * as ws from "ws"
 class StreamStatsData {
     constructor(public twitch_viewers: number,
         public twitch_followers: number,
-        public twitch_latest_follower: string) { }
+        public twitch_latest_follower: string,
+        public youtube_viewers: number,
+        public youtube_followers: number,
+        public youtube_latest_follower: string) { }
 }
 
-let latest_stats = new StreamStatsData(0, 0, "");
+let latest_stats = new StreamStatsData(0, 0, "", 0, 0, "");
 
 async function periodic_export(socket: ws) {
     while (true) {
@@ -27,7 +30,7 @@ export async function run(name: string, hostport: string) {
     sub.subscribe();
 
     const sock = new ws.Server({
-        port: 3000,
+        port: 9000,
     });
     sock.on("error", (error: Error) => {
         console.log(`Socket error ${error}`);
@@ -49,6 +52,9 @@ export async function run(name: string, hostport: string) {
                         case m.Platform.Twitch:
                             latest_stats.twitch_followers = followers.followers;
                             break;
+                        case m.Platform.Youtube:
+                            latest_stats.youtube_followers = followers.followers;
+                            break;
                     }
                     break;
                 case m.MessageTypes[m.MessageTypes.StreamStatsLatestFollower]:
@@ -57,6 +63,9 @@ export async function run(name: string, hostport: string) {
                         case m.Platform.Twitch:
                             latest_stats.twitch_latest_follower = latest_follower.latest_follower;
                             break;
+                        case m.Platform.Youtube:
+                            latest_stats.youtube_latest_follower = latest_follower.latest_follower;
+                            break;
                     }
                     break;
                 case m.MessageTypes[m.MessageTypes.StreamStatsViewers]:
@@ -64,6 +73,9 @@ export async function run(name: string, hostport: string) {
                     switch (viewers.platform) {
                         case m.Platform.Twitch:
                             latest_stats.twitch_viewers = viewers.viewers;
+                            break;
+                        case m.Platform.Youtube:
+                            latest_stats.youtube_viewers = viewers.viewers;
                             break;
                     }
                     break;
